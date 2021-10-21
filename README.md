@@ -3,8 +3,8 @@
  This GitHub will have all current scripts in development so please keep in mind this is not a finished project.
  There may be Dev Logs in the near future documenting the Unity Sides of the game development and design which would go up on youtube.
  
- Design Doc: (Design Doc will be posted on Wednesday 20th)
+ Design Doc: https://docs.google.com/document/d/1ncbT13NUSXMEoS4mIIphfqsJV9xQ-GYnpdtS4AlACK8/edit?usp=sharing
  
  Website: https://www.kerple.games/
  
- Dev Log Videos: https://www.youtube.com/channel/UCRFkpQ_OWcELmAcOepiYoMg (First Dev Log will be posted on Wednesday 20th)
+ Dev Log Videos: (First Dev Log will be posted soon)
