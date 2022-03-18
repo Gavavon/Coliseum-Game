@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Freeze : MonoBehaviour
 {
-    public bool FREEZE = true;
-
-    public Animator[] animeList;
-
+    public bool freeze;
     public static Freeze instance;
     private void Awake()
     {
         instance = this;
     }
 
-    void Update()
+    public bool getFreeze() 
     {
-        
+        return freeze;
     }
+    public void setFreeze(bool x) 
+    {
+        freeze = x;
+    }
+
 }

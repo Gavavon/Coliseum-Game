@@ -15,11 +15,6 @@ public class UIControl : MonoBehaviour
     public GameObject menuScreenObj;
     public float menuTransitionTime;
 
-    [Header("Start Menu")]
-    public CanvasGroup startScreen;
-    public GameObject startScreenObj;
-    public float startTransitionTime;
-
     [Header("Options Menu")]
     public CanvasGroup optionScreen;
     public GameObject optionScreenObj;
@@ -29,11 +24,6 @@ public class UIControl : MonoBehaviour
     public CanvasGroup creditsScreen;
     public GameObject creditsScreenObj;
     public float creditsTransitionTime;
-
-    [Header("Pause Menu")]
-    public CanvasGroup pauseScreen;
-    public GameObject pauseScreenObj;
-    public float pauseTransitionTime;
 
     public static UIControl instance;
     private void Awake()
@@ -48,49 +38,52 @@ public class UIControl : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (menuScreenObj.activeSelf || startScreenObj.activeSelf || optionScreenObj.activeSelf || creditsScreenObj.activeSelf || pauseScreenObj.activeSelf)
+        if (menuScreenObj.activeSelf || optionScreenObj.activeSelf || creditsScreenObj.activeSelf)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Freeze.instance.FREEZE = true;
+            try
+            {
+                //Freeze.instance.FREEZE = true;
+            }
+            catch { }
         }
         else 
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            Freeze.instance.FREEZE = false;
-        }
-    }
-    private void Update()
-    {
-        if (creditsScreenObj.activeSelf && Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
-        {
-            StopCredits();
+            try
+            {
+                //Freeze.instance.FREEZE = true;
+            }
+            catch { }
         }
     }
     #endregion
     //----------------------------------------------------------------
     #region Normal Menu Components
     //-------------------------------
+    #region Start Game
+    [ContextMenu("Open Main Menu screen")]
+    public void StartGame()
+    {
+        CloseAll();
+        //prompt the player if they want to do a tutorial
+        //load other scene
+    }
+    #endregion
+    //-------------------------------
     #region Main Menu
+    [ContextMenu("Open Main Menu screen")]
+    public void OpenMainMenu()
+    {
+        menuScreenObj.SetActive(true);
+        DOTween.To(() => menuScreen.alpha, x => menuScreen.alpha = x, 1, menuTransitionTime);
+    }
     [ContextMenu("Close Main Menu screen")]
     public void CloseMainMenu()
     {
         DOTween.To(() => menuScreen.alpha, x => menuScreen.alpha = x, 1, menuTransitionTime).OnComplete(() => { menuScreenObj.SetActive(false); });
-    }
-    #endregion
-    //-------------------------------
-    #region Start
-    [ContextMenu("Open Start screen")]
-    public void PressStart() 
-    {
-        startScreenObj.SetActive(true);
-        DOTween.To(() => startScreen.alpha, x => startScreen.alpha = x, 1, startTransitionTime);
-    }
-    [ContextMenu("Close Start screen")]
-    public void CloseStart()
-    {
-        DOTween.To(() => startScreen.alpha, x => startScreen.alpha = x, 1, startTransitionTime).OnComplete(() => { startScreenObj.SetActive(false); });
     }
     #endregion
     //-------------------------------
@@ -117,11 +110,24 @@ public class UIControl : MonoBehaviour
         UICredits.instance.RollCredits();
     }
     [ContextMenu("Stop Credits screen")]
-    public void StopCredits() 
+    public void CloseCredits() 
     {
         UICredits.instance.ResetCredits();
-
-        DOTween.To(() => creditsScreen.alpha, x => creditsScreen.alpha = x, 0, creditsTransitionTime).OnComplete(() => { creditsScreenObj.SetActive(false); });
+        DOTween.To(() => creditsScreen.alpha, x => creditsScreen.alpha = x, 0, creditsTransitionTime).OnComplete(() => { creditsScreenObj.SetActive(false); OpenMainMenu(); });
+    }
+    #endregion
+    //-------------------------------
+    #region Universal Close
+    [ContextMenu("Close all screens")]
+    public void CloseAll()
+    {
+        try
+        {
+            CloseMainMenu();
+            CloseOptions();
+            CloseCredits();
+        }
+        catch { }
     }
     #endregion
     //-------------------------------
@@ -132,22 +138,6 @@ public class UIControl : MonoBehaviour
     }
     #endregion
     //-------------------------------
-    #endregion
-    //----------------------------------------------------------------
-    #region Pause Menu Components
-
-    [ContextMenu("Pause Screen Transition In")]
-    public void PauseScreenTransitionIn() 
-    {
-        pauseScreenObj.SetActive(true);
-        DOTween.To(() => pauseScreen.alpha, x => pauseScreen.alpha = x, 1, pauseTransitionTime);
-    }
-    [ContextMenu("Pause Screen Transition Out")]
-    public void PauseScreenTransitionOut()
-    {
-        DOTween.To(() => pauseScreen.alpha, x => pauseScreen.alpha = x, 0, pauseTransitionTime).OnComplete(() => { pauseScreenObj.SetActive(false); });
-        
-    }
     #endregion
     //----------------------------------------------------------------
 }

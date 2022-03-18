@@ -35,3 +35,9 @@ public class UICredits : MonoBehaviour
     }
 
 }
+/* Special Thanks People
+ * Ryan Elliot
+ * Totsugeki
+ * 
+ * 
+ */
